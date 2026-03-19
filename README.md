@@ -75,7 +75,7 @@ After that:
 </p>
 The system uses real-time environmental data to trigger claims automatically, 
 while a multi-layer fraud detection engine assigns a risk score before payout.
----
+
 
 ## Weekly Premium Model  
 
