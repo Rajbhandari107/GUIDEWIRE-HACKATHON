@@ -34,7 +34,7 @@ Over a week:
 - actual income → ₹1000  
 - loss → ₹2000  
 
-This loss happens due to external conditions, not because of his fault.
+> This loss is caused by **external disruptions**, not user behavior.
 
 ---
 
