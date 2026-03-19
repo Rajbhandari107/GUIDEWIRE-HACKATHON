@@ -73,7 +73,8 @@ After that:
 <p align="center">
   <img src="./images/architecture.jpeg" width="700"/>
 </p>
-
+The system uses real-time environmental data to trigger claims automatically, 
+while a multi-layer fraud detection engine assigns a risk score before payout.
 ---
 
 ## Weekly Premium Model  
