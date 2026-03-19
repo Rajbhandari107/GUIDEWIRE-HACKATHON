@@ -16,17 +16,29 @@ Right now, there is no system that protects them from this kind of income loss.
 
 ## Scenario  
 
-Ravi is a Swiggy delivery partner in Chennai whose income depends entirely on daily work availability.
-But during disruptions like heavy rain, his earnings drop significantly.
+Ravi is a Swiggy delivery partner in Chennai whose income depends entirely on daily work availability.  
+During disruptions like heavy rain, his earnings drop significantly.
 
-On a normal day, he earns around ₹500, completes 15–20 deliveries. But during heavy rain, roads become unsafe, restaurants close early, orders drop. 
+On a normal day:
+- Earns around ₹500  
+- Completes 15–20 deliveries  
+
+During heavy rain:
+- Roads become unsafe  
+- Restaurants close early  
+- Orders drop  
+
+### Daily Impact
+
 | Condition    | Daily Earnings | Deliveries |
 |-------------|--------------|-----------|
 | Normal Day  | ₹500         | 15–20     |
 | Heavy Rain  | ₹0–₹200      | Very low  |
-His daily income drops to ₹0–₹200.
 
-Over a week:
+> His daily income drops drastically during disruptions.
+
+### Weekly Impact
+
 | Metric           | Value |
 |-----------------|------|
 | Expected Income | ₹3000 |
