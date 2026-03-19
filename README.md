@@ -71,7 +71,7 @@ After that:
 ## System Architecture  
 
 <p align="center">
-  <img src="./images/architecture.png" width="700"/>
+  <img src="./images/architecture.jpeg" width="700"/>
 </p>
 
 ---
