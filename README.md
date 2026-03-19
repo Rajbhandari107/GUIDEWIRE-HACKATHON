@@ -311,3 +311,14 @@ GigInsure focuses on one goal:
 Helping delivery workers stay financially stable when they cannot work due to external conditions.
 
 It removes the complexity of insurance and makes everything automatic.
+
+---
+
+## Git Repository
+
+https://github.com/Rajbhandari107/GUIDEWIRE-HACKATHON
+
+## Pitch Video Link - 
+
+##TEAM MINI PEKKA
+Buddham Rajbhandari, Aayush Pathak, Sneha Shariff, Achyut Poudel, Rahul Purbey
