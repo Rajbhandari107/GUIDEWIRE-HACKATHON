@@ -68,6 +68,14 @@ After that:
 
 ---
 
+## System Architecture  
+
+<p align="center">
+  <img src="./images/architecture.png" width="700"/>
+</p>
+
+---
+
 ## Weekly Premium Model  
 
 We use a weekly model because gig workers operate week-to-week.
