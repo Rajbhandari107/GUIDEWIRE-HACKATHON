@@ -16,23 +16,22 @@ Right now, there is no system that protects them from this kind of income loss.
 
 ## Scenario  
 
-Ravi is a Swiggy delivery partner in Chennai.
+Ravi is a Swiggy delivery partner in Chennai whose income depends entirely on daily work availability.
+But during disruptions like heavy rain, his earnings drop significantly.
 
-On a normal day:
-- earns around ₹500  
-- completes 15–20 deliveries  
-
-During heavy rain:
-- roads become unsafe  
-- restaurants close early  
-- orders drop  
-
+On a normal day, he earns around ₹500, completes 15–20 deliveries. But during heavy rain, roads become unsafe, restaurants close early, orders drop. 
+| Condition    | Daily Earnings | Deliveries |
+|-------------|--------------|-----------|
+| Normal Day  | ₹500         | 15–20     |
+| Heavy Rain  | ₹0–₹200      | Very low  |
 His daily income drops to ₹0–₹200.
 
 Over a week:
-- expected income → ₹3000  
-- actual income → ₹1000  
-- loss → ₹2000  
+| Metric           | Value |
+|-----------------|------|
+| Expected Income | ₹3000 |
+| Actual Income   | ₹1000 |
+| **Loss**        | **₹2000** |
 
 > This loss is caused by **external disruptions**, not user behavior.
 
