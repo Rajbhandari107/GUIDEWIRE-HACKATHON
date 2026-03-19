@@ -1,200 +1,304 @@
-# GUIDEWIRE-HACKATHON
+# GigInsure  
+AI-powered income protection for food delivery workers  
 
-GigInsure
+---
 
-AI-powered income protection for food delivery workers
+## Problem  
 
-Requirement and Persona-Based Scenario
+Food delivery partners earn only when they are working.  
+If external conditions like heavy rain, floods, extreme heat, or pollution occur, they simply cannot work.
 
-Food delivery partners working with platforms like Swiggy and Zomato earn only when they are actively delivering orders. Their income is directly affected by external conditions like weather, pollution, or city restrictions.
+When they don’t work, they don’t earn.
 
-Take a simple example.
+Right now, there is no system that protects them from this kind of income loss.
 
-Ravi is a Swiggy delivery partner in Chennai. On a normal day, he earns around ₹500 by completing 15–20 deliveries. But during heavy rain or flooding:
+---
 
-roads become unsafe
+## Scenario  
 
-restaurants close early
+Ravi is a Swiggy delivery partner in Chennai.
 
-order demand drops
+On a normal day:
+- earns around ₹500  
+- completes 15–20 deliveries  
 
-On such days, his income can fall to ₹0–₹200.
+During heavy rain:
+- roads become unsafe  
+- restaurants close early  
+- orders drop  
+
+His daily income drops to ₹0–₹200.
 
 Over a week:
+- expected income → ₹3000  
+- actual income → ₹1000  
+- loss → ₹2000  
 
-expected income is around ₹3000
+This loss happens due to external conditions, not because of his fault.
 
-actual income drops to around ₹1000
+---
 
-loss is nearly ₹2000
+## What We Are Building  
 
-The problem is that this loss happens due to reasons outside his control, and there is currently no insurance that covers this type of income loss.
+GigInsure is a simple system that gives gig workers a safety net for income loss.
 
-GigInsure is designed to solve this by providing a safety net specifically for gig workers.
+Instead of asking users to file claims manually, the system:
+- monitors real-world conditions  
+- detects disruptions  
+- automatically triggers payouts  
 
-Application Workflow
+The user does not need to take any action.
 
-The platform is designed to be simple and automatic so that workers do not have to deal with complex insurance processes.
+---
 
-The flow is as follows:
+## How It Works  
 
-User registers with basic details like location and platform
+1. User registers with location and platform  
+2. System calculates risk and suggests a weekly plan  
+3. User buys the plan  
+4. Coverage becomes active  
 
-System calculates risk and suggests a weekly plan
+After that:
 
-User purchases the plan
+- System continuously monitors weather, AQI, and alerts  
+- If disruption happens → claim is triggered automatically  
+- Fraud checks are applied  
+- Payout is processed  
+- Dashboard is updated  
 
-Coverage becomes active for that week
+---
 
-System continuously monitors external data (weather, pollution, alerts)
+## Weekly Premium Model  
 
-If disruption occurs, claim is triggered automatically
+We use a weekly model because gig workers operate week-to-week.
 
-Fraud check is performed
+Plans:
 
-Payout is processed instantly
+- ₹15 → coverage up to ₹500  
+- ₹20 → coverage up to ₹800  
+- ₹25 → coverage up to ₹1200  
 
-The key idea is that the worker does not need to file any claim manually.
+Premium is adjusted slightly based on:
+- location  
+- historical disruption patterns  
 
-Weekly Premium Model and Parametric Triggers
+Higher-risk areas may have slightly higher premiums.
 
-GigInsure follows a weekly pricing model, since gig workers typically operate week-to-week.
+---
 
-Weekly Plans
+## Parametric Triggers  
 
-₹15 per week → coverage up to ₹500
+Claims are triggered automatically using real-world data.
 
-₹20 per week → coverage up to ₹800
+We monitor:
 
-₹25 per week → coverage up to ₹1200
+- Rainfall  
+- Temperature  
+- Air Quality Index  
+- Flood alerts  
 
-This keeps the insurance affordable and aligned with their earning pattern.
+Examples:
 
-Parametric Triggers
+- Heavy rain → rainfall above threshold  
+- Extreme heat → temperature above limit  
+- Pollution → AQI hazardous  
+- Flood → official alert  
 
-Instead of manual claims, payouts are triggered automatically based on real-world conditions.
+Once triggered:
+- system detects disruption  
+- claim is generated  
+- payout is processed  
 
-The system monitors:
+---
 
-Rainfall levels
+## AI / ML Integration  
 
-Temperature
+### Premium Calculation  
 
-Air quality index
+We estimate risk using:
+- location  
+- historical weather data  
+- disruption frequency  
 
-Flood alerts
+This helps in setting fair weekly pricing.
 
-Trigger examples:
+---
 
-Heavy rain → rainfall above threshold
+### Fraud Detection  
 
-Extreme heat → temperature above safe limit
+We check:
+- mismatch between claim and actual data  
+- repeated claims  
+- unusual patterns  
 
-Pollution → AQI in hazardous range
+This is done using simple anomaly detection and rule-based checks.
 
-Flood → official alert in city
+---
 
-Once a condition is met:
+## Platform Choice  
 
-system detects disruption
+We chose a web application because:
+- faster to build within hackathon time  
+- works on mobile and desktop  
+- no installation required  
+- easy to demonstrate  
 
-claim is generated
+---
 
-payout is processed
+## Tech Stack  
 
-Platform Choice
+Frontend: React + Tailwind  
+Backend: FastAPI  
+Database: PostgreSQL  
+AI/ML: Scikit-learn  
+APIs: Weather + AQI  
+Payments: Razorpay (sandbox)  
+Deployment: Vercel / Render  
 
-We are building this as a web application.
+---
 
-Reason:
+## Development Plan  
 
-faster to develop within hackathon time
+Phase 1:
+- problem understanding  
+- system design  
+- basic UI  
 
-works on both mobile and desktop
+Phase 2:
+- user registration  
+- policy system  
+- premium calculation  
+- claim automation  
 
-no installation required
+Phase 3:
+- fraud detection  
+- payout simulation  
+- dashboard  
 
-easier to demonstrate
+---
 
-AI and ML Integration
+## 🚨 Adversarial Defense & Anti-Spoofing Strategy  
 
-AI is used in two main areas.
+### Problem  
 
-1. Premium Calculation
+Fraud rings can spoof GPS locations to fake being in a disruption zone and trigger false payouts.
 
-The system uses data such as:
+Simple GPS verification is not reliable.
 
-location
+---
 
-historical weather patterns
+## 1. Differentiation: Real vs Fake  
 
-frequency of disruptions
+We do not rely only on GPS.  
+We check multiple signals together.
 
-Based on this, it calculates a fair weekly premium for each user.
+Real users show:
+- natural movement  
+- realistic behavior  
+- environment consistency  
 
-2. Fraud Detection
+Fake users show:
+- static or unnatural movement  
+- mismatched data  
 
-To prevent misuse, the system checks:
+---
 
-mismatch between claim and weather data
+### Signals Used  
 
-suspicious location activity
+- Location history (not just one point)  
+- Movement patterns  
+- Time-based activity  
+- Network conditions  
+- Environmental data  
 
-repeated or duplicate claims
+---
 
-This is done using anomaly detection and rule-based validation.
+## 2. Data for Fraud Detection  
 
-Tech Stack
+### User-Level  
 
-Frontend: React with Tailwind CSS
+- GPS history  
+- movement path  
+- claim frequency  
 
-Backend: FastAPI (Python)
+---
 
-Database: PostgreSQL
+### Environmental  
 
-AI Models: Scikit-learn
+- weather data  
+- AQI  
+- alerts  
 
-APIs: Weather API and AQI API
+---
 
-Payments: Razorpay sandbox
+### Device / Network  
 
-Deployment: Vercel or Render
+- IP patterns  
+- device identifiers  
 
-Development Plan
-Phase 1 (Weeks 1–2)
+---
 
-problem understanding
+### Group Behavior (important)  
 
-system design
+We detect coordinated attacks:
 
-define insurance model
+- many users claiming from same location  
+- sudden spike in claims  
+- identical behavior patterns  
 
-basic UI prototype
+---
 
-Phase 2 (Weeks 3–4)
+## 3. Defense Strategy  
 
-user registration
+We use layered validation:
 
-policy system
+### Layer 1: Real-time checks  
+Compare GPS, movement, and environment  
 
-premium calculation
+### Layer 2: Behavior analysis  
+Compare with past activity  
 
-claim automation
+### Layer 3: Cluster detection  
+Detect group fraud patterns  
 
-Phase 3 (Weeks 5–6)
+---
 
-fraud detection
+Each claim is assigned a **risk score (0–1)**.
 
-payout simulation
+---
 
-analytics dashboard
+### Action Based on Risk  
 
-final demo
+- Low risk → instant payout  
+- Medium risk → delayed verification  
+- High risk → flagged  
 
-Final Idea
+---
 
-GigInsure focuses on one simple goal:
+## 4. User Experience Balance  
 
-Helping food delivery workers stay financially stable even when they cannot work due to external disruptions.
+We avoid punishing genuine users.
 
-It removes the complexity of insurance and replaces it with an automated, AI-driven system that works in the background.
+If a claim is flagged:
+- it is not rejected immediately  
+- moved to verification state  
+
+We may:
+- check activity consistency  
+- validate against environment  
+
+---
+
+### Principle  
+
+We prefer delaying a payout rather than rejecting a genuine worker.
+
+---
+
+## Final Idea  
+
+GigInsure focuses on one goal:
+
+Helping delivery workers stay financially stable when they cannot work due to external conditions.
+
+It removes the complexity of insurance and makes everything automatic.
