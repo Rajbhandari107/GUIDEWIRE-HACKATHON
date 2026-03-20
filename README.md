@@ -329,7 +329,8 @@ It removes the complexity of insurance and makes everything automatic.
 
 https://github.com/Rajbhandari107/GUIDEWIRE-HACKATHON
 
-## Pitch Video Link - https://drive.google.com/file/d/1WYRMrpyMjJC1vgqnEff79H6lVm4SgsRF/view?usp=sharing
+## Pitch Video Link
+https://drive.google.com/file/d/1WYRMrpyMjJC1vgqnEff79H6lVm4SgsRF/view?usp=sharing
 
 ##TEAM MINI PEKKA
 Buddham Rajbhandari, Aayush Pathak, Sneha Shariff, Achyut Poudel, Rahul Purbey
