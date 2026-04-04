@@ -389,6 +389,7 @@ https://github.com/Rajbhandari107/GUIDEWIRE-HACKATHON
 
 ## Pitch Video Link
 https://drive.google.com/file/d/1WYRMrpyMjJC1vgqnEff79H6lVm4SgsRF/view?usp=sharing
+https://drive.google.com/file/d/1ytCGP2_7fMlPE7-MoTswfjG27soGLoym/view?usp=sharing
 
 ##TEAM MINI PEKKA
 Buddham Rajbhandari, Aayush Pathak, Sneha Shariff, Achyut Poudel, Rahul Purbey
