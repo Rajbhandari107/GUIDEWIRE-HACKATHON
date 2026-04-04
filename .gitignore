@@ -1,5 +1,22 @@
-node_modules/
+# Frontend
 frontend/node_modules/
-.env
-dist/
-build/
+frontend/dist/
+frontend/build/
+frontend/.env
+frontend/.env.local
+
+# Backend
+backend/__pycache__/
+backend/*.py[cod]
+backend/*.db
+backend/*.db-shm
+backend/*.db-wal
+backend/.env
+backend/venv/
+backend/.venv/
+
+# IDE/System
+.vscode/
+.idea/
+.DS_Store
+*.log
