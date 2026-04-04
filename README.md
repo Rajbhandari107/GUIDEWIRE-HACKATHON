@@ -82,7 +82,7 @@ After that:
 ## System Architecture  
 
 <p align="center">
-  <img src="./images/architecture.jpeg" width="700"/>
+  <img src="./architecture.jpeg" width="700"/>
 </p>
 The system uses real-time environmental data to trigger claims automatically, 
 while a multi-layer fraud detection engine assigns a risk score before payout.
@@ -164,18 +164,76 @@ We chose a web application because:
 - easy to demonstrate  
 
 ---
+ 
+## Tech Stack
 
-## Tech Stack  
+FastAPI, React, Tailwind CSS, SQLAlchemy, Pydantic, SQLite, scikit-learn, OpenWeather API, AQI datasets, Google Mobility data  
+---
 
-Frontend: React + Tailwind  
-Backend: FastAPI  
-Database: PostgreSQL  
-AI/ML: Scikit-learn  
-APIs: Weather + AQI  
-Payments: Razorpay (sandbox)  
-Deployment: Vercel / Render  
+# GigInsure — Phase 2 (Automation & Protection)
+
+GigInsure Phase 2 focuses on building the core insurance workflow, enabling automated protection for delivery partners through dynamic pricing and zero-touch claims.
 
 ---
+
+## Features Implemented
+
+- User registration with profile data (location, income, work hours)  
+- Weekly policy selection and activation  
+- Dynamic premium calculation based on environmental and user-specific factors  
+- Zero-touch claim triggering based on disruption events (rain, AQI)  
+- Automated payout calculation based on income loss  
+- Claims history tracking with timeline view  
+
+---
+
+## Core Functionality
+
+The system integrates environmental signals and user data to compute risk and payouts in real time.
+
+Risk model:
+
+\[
+\text{Risk} = 1 + (0.6 \cdot \text{Env Risk} + 0.4 \cdot \text{User Risk})
+\]
+
+Payout model:
+
+\[
+\text{Payout} = \text{Daily Income} \times \text{Disruption Severity}
+\]
+
+---
+
+## API Endpoints
+
+- `POST /auth/register` — Register a new user  
+- `GET /policies/plans` — Fetch available plans  
+- `POST /policies/calculate-premium` — Get dynamic premium  
+- `POST /policies/purchase` — Activate policy  
+- `POST /policies/simulate-disruption/{user_id}` — Trigger disruption event  
+- `GET /policies/claims/{user_id}` — Retrieve claim history  
+
+---
+
+## System Flow
+
+1. User registers with work profile  
+2. Premium is calculated dynamically  
+3. User purchases a weekly policy  
+4. Disruption event is triggered (simulated or data-driven)  
+5. System validates and processes claim automatically  
+6. Payout is calculated and recorded  
+
+
+---
+
+## Current Capabilities
+
+- End-to-end automated insurance workflow  
+- Personalized pricing based on user behavior  
+- Data-driven disruption modeling  
+- Fully functional demo-ready system  
 
 ## Development Plan  
 
