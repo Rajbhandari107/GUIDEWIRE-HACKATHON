@@ -1,0 +1,28 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-[#F3F4F6] text-[#111827] overflow-x-hidden;
+    font-family: 'Inter', sans-serif;
+  }
+}
+
+#root {
+  width: 100%;
+  min-height: 100vh;
+}
+
+/* Custom design system from HTML template */
+:root {
+  --primary-blue: #1E3A8A;
+  --bg-gray: #F3F4F6;
+  --success-green: #22C55E;
+  --success-bg: #DCFCE7;
+  --warning-yellow: #FEF9C3;
+  --text-dark: #111827;
+  --text-gray: #6B7280;
+}
