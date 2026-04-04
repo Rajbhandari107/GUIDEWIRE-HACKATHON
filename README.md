@@ -1,200 +1,336 @@
-# GUIDEWIRE-HACKATHON
+# GigInsure  
+AI-powered income protection for food delivery workers  
 
-GigInsure
+---
 
-AI-powered income protection for food delivery workers
+## Problem  
 
-Requirement and Persona-Based Scenario
+Food delivery partners earn only when they are working.  
+If external conditions like heavy rain, floods, extreme heat, or pollution occur, they simply cannot work.
 
-Food delivery partners working with platforms like Swiggy and Zomato earn only when they are actively delivering orders. Their income is directly affected by external conditions like weather, pollution, or city restrictions.
+When they don’t work, they don’t earn.
 
-Take a simple example.
+Right now, there is no system that protects them from this kind of income loss.
 
-Ravi is a Swiggy delivery partner in Chennai. On a normal day, he earns around ₹500 by completing 15–20 deliveries. But during heavy rain or flooding:
+---
 
-roads become unsafe
+## Scenario  
 
-restaurants close early
+Ravi is a Swiggy delivery partner in Chennai whose income depends entirely on daily work availability.  
+During disruptions like heavy rain, his earnings drop significantly.
 
-order demand drops
+On a normal day:
+- Earns around ₹500  
+- Completes 15–20 deliveries  
 
-On such days, his income can fall to ₹0–₹200.
+During heavy rain:
+- Roads become unsafe  
+- Restaurants close early  
+- Orders drop  
 
-Over a week:
+### Daily Impact
 
-expected income is around ₹3000
+| Condition    | Daily Earnings | Deliveries |
+|-------------|--------------|-----------|
+| Normal Day  | ₹500         | 15–20     |
+| Heavy Rain  | ₹0–₹200      | Very low  |
 
-actual income drops to around ₹1000
+> His daily income drops drastically during disruptions.
 
-loss is nearly ₹2000
+### Weekly Impact
 
-The problem is that this loss happens due to reasons outside his control, and there is currently no insurance that covers this type of income loss.
+| Metric           | Value |
+|-----------------|------|
+| Expected Income | ₹3000 |
+| Actual Income   | ₹1000 |
+| **Loss**        | **₹2000** |
 
-GigInsure is designed to solve this by providing a safety net specifically for gig workers.
+> This loss is caused by **external disruptions**, not user behavior.
 
-Application Workflow
+---
 
-The platform is designed to be simple and automatic so that workers do not have to deal with complex insurance processes.
+## What We Are Building  
 
-The flow is as follows:
+GigInsure is a simple system that gives gig workers a safety net for income loss.
 
-User registers with basic details like location and platform
+Instead of asking users to file claims manually, the system:
+- monitors real-world conditions  
+- detects disruptions  
+- automatically triggers payouts  
 
-System calculates risk and suggests a weekly plan
+The user does not need to take any action.
 
-User purchases the plan
+---
 
-Coverage becomes active for that week
+## How It Works  
 
-System continuously monitors external data (weather, pollution, alerts)
+1. User registers with location and platform  
+2. System calculates risk and suggests a weekly plan  
+3. User buys the plan  
+4. Coverage becomes active  
 
-If disruption occurs, claim is triggered automatically
+After that:
 
-Fraud check is performed
+- System continuously monitors weather, AQI, and alerts  
+- If disruption happens → claim is triggered automatically  
+- Fraud checks are applied  
+- Payout is processed  
+- Dashboard is updated  
 
-Payout is processed instantly
+---
 
-The key idea is that the worker does not need to file any claim manually.
+## System Architecture  
 
-Weekly Premium Model and Parametric Triggers
+<p align="center">
+  <img src="./images/architecture.jpeg" width="700"/>
+</p>
+The system uses real-time environmental data to trigger claims automatically, 
+while a multi-layer fraud detection engine assigns a risk score before payout.
 
-GigInsure follows a weekly pricing model, since gig workers typically operate week-to-week.
 
-Weekly Plans
+## Weekly Premium Model  
 
-₹15 per week → coverage up to ₹500
+We use a weekly model because gig workers operate week-to-week.
 
-₹20 per week → coverage up to ₹800
+Plans:
 
-₹25 per week → coverage up to ₹1200
+- ₹15 → coverage up to ₹500  
+- ₹20 → coverage up to ₹800  
+- ₹25 → coverage up to ₹1200  
 
-This keeps the insurance affordable and aligned with their earning pattern.
+Premium is adjusted slightly based on:
+- location  
+- historical disruption patterns  
 
-Parametric Triggers
+Higher-risk areas may have slightly higher premiums.
 
-Instead of manual claims, payouts are triggered automatically based on real-world conditions.
+---
 
-The system monitors:
+## Parametric Triggers  
 
-Rainfall levels
+Claims are triggered automatically using real-world data.
 
-Temperature
+We monitor:
 
-Air quality index
+- Rainfall  
+- Temperature  
+- Air Quality Index  
+- Flood alerts  
 
-Flood alerts
+Examples:
 
-Trigger examples:
+- Heavy rain → rainfall above threshold  
+- Extreme heat → temperature above limit  
+- Pollution → AQI hazardous  
+- Flood → official alert  
 
-Heavy rain → rainfall above threshold
+Once triggered:
+- system detects disruption  
+- claim is generated  
+- payout is processed  
 
-Extreme heat → temperature above safe limit
+---
 
-Pollution → AQI in hazardous range
+## AI / ML Integration  
 
-Flood → official alert in city
+### Premium Calculation  
 
-Once a condition is met:
+We estimate risk using:
+- location  
+- historical weather data  
+- disruption frequency  
 
-system detects disruption
+This helps in setting fair weekly pricing.
 
-claim is generated
+---
 
-payout is processed
+### Fraud Detection  
 
-Platform Choice
+We check:
+- mismatch between claim and actual data  
+- repeated claims  
+- unusual patterns  
 
-We are building this as a web application.
+This is done using simple anomaly detection and rule-based checks.
 
-Reason:
+---
 
-faster to develop within hackathon time
+## Platform Choice  
 
-works on both mobile and desktop
+We chose a web application because:
+- faster to build within hackathon time  
+- works on mobile and desktop  
+- no installation required  
+- easy to demonstrate  
 
-no installation required
+---
 
-easier to demonstrate
+## Tech Stack  
 
-AI and ML Integration
+Frontend: React + Tailwind  
+Backend: FastAPI  
+Database: PostgreSQL  
+AI/ML: Scikit-learn  
+APIs: Weather + AQI  
+Payments: Razorpay (sandbox)  
+Deployment: Vercel / Render  
 
-AI is used in two main areas.
+---
 
-1. Premium Calculation
+## Development Plan  
 
-The system uses data such as:
+Phase 1:
+- problem understanding  
+- system design  
+- basic UI  
 
-location
+Phase 2:
+- user registration  
+- policy system  
+- premium calculation  
+- claim automation  
 
-historical weather patterns
+Phase 3:
+- fraud detection  
+- payout simulation  
+- dashboard  
 
-frequency of disruptions
+---
 
-Based on this, it calculates a fair weekly premium for each user.
+## 🚨 Adversarial Defense & Anti-Spoofing Strategy  
 
-2. Fraud Detection
+### Problem  
 
-To prevent misuse, the system checks:
+Fraud rings can spoof GPS locations to fake being in a disruption zone and trigger false payouts.
 
-mismatch between claim and weather data
+Simple GPS verification is not reliable.
 
-suspicious location activity
+---
 
-repeated or duplicate claims
+## 1. Differentiation: Real vs Fake  
 
-This is done using anomaly detection and rule-based validation.
+We do not rely only on GPS.  
+We check multiple signals together.
 
-Tech Stack
+Real users show:
+- natural movement  
+- realistic behavior  
+- environment consistency  
 
-Frontend: React with Tailwind CSS
+Fake users show:
+- static or unnatural movement  
+- mismatched data  
 
-Backend: FastAPI (Python)
+---
 
-Database: PostgreSQL
+### Signals Used  
 
-AI Models: Scikit-learn
+- Location history (not just one point)  
+- Movement patterns  
+- Time-based activity  
+- Network conditions  
+- Environmental data  
 
-APIs: Weather API and AQI API
+---
 
-Payments: Razorpay sandbox
+## 2. Data for Fraud Detection  
 
-Deployment: Vercel or Render
+### User-Level  
 
-Development Plan
-Phase 1 (Weeks 1–2)
+- GPS history  
+- movement path  
+- claim frequency  
 
-problem understanding
+---
 
-system design
+### Environmental  
 
-define insurance model
+- weather data  
+- AQI  
+- alerts  
 
-basic UI prototype
+---
 
-Phase 2 (Weeks 3–4)
+### Device / Network  
 
-user registration
+- IP patterns  
+- device identifiers  
 
-policy system
+---
 
-premium calculation
+### Group Behavior (important)  
 
-claim automation
+We detect coordinated attacks:
 
-Phase 3 (Weeks 5–6)
+- many users claiming from same location  
+- sudden spike in claims  
+- identical behavior patterns  
 
-fraud detection
+---
 
-payout simulation
+## 3. Defense Strategy  
 
-analytics dashboard
+We use layered validation:
 
-final demo
+### Layer 1: Real-time checks  
+Compare GPS, movement, and environment  
 
-Final Idea
+### Layer 2: Behavior analysis  
+Compare with past activity  
 
-GigInsure focuses on one simple goal:
+### Layer 3: Cluster detection  
+Detect group fraud patterns  
 
-Helping food delivery workers stay financially stable even when they cannot work due to external disruptions.
+---
 
-It removes the complexity of insurance and replaces it with an automated, AI-driven system that works in the background.
+Each claim is assigned a **risk score (0–1)**.
+
+---
+
+### Action Based on Risk  
+
+- Low risk → instant payout  
+- Medium risk → delayed verification  
+- High risk → flagged  
+
+---
+
+## 4. User Experience Balance  
+
+We avoid punishing genuine users.
+
+If a claim is flagged:
+- it is not rejected immediately  
+- moved to verification state  
+
+We may:
+- check activity consistency  
+- validate against environment  
+
+---
+
+### Principle  
+
+We prefer delaying a payout rather than rejecting a genuine worker.
+
+---
+
+## Final Idea  
+
+GigInsure focuses on one goal:
+
+Helping delivery workers stay financially stable when they cannot work due to external conditions.
+
+It removes the complexity of insurance and makes everything automatic.
+
+---
+
+## Git Repository
+
+https://github.com/Rajbhandari107/GUIDEWIRE-HACKATHON
+
+## Pitch Video Link
+https://drive.google.com/file/d/1WYRMrpyMjJC1vgqnEff79H6lVm4SgsRF/view?usp=sharing
+
+##TEAM MINI PEKKA
+Buddham Rajbhandari, Aayush Pathak, Sneha Shariff, Achyut Poudel, Rahul Purbey
