@@ -8,8 +8,8 @@ import { AdminScreen } from './screens/AdminScreen';
 import { BottomNav } from './components/BottomNav';
 import { ProfileSheet } from './components/ProfileSheet';
 import axios from 'axios';
+import { API_BASE } from './config';
 
-const API_BASE = 'http://localhost:8000';
 
 type Screen = 'HOME' | 'POLICY' | 'CLAIMS' | 'ADMIN';
 

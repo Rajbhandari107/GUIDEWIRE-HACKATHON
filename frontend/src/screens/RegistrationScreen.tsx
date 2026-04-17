@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { motion, AnimatePresence } from 'framer-motion';
+import { API_BASE } from '../config';
 
-const API_BASE = 'http://localhost:8000';
 const LAST_PHONE_KEY = 'giginsure_last_phone';
 
 interface User {
