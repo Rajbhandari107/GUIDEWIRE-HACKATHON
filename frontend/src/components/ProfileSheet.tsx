@@ -1,10 +1,13 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 interface ProfileSheetProps {
   isOpen: boolean;
   onClose: () => void;
   onLogout: () => void;
+  onAdminEnabled: () => void;
+  onAdminDisabled: () => void;
+  adminEnabled: boolean;
   user: {
     name: string;
     phone: string;
@@ -14,7 +17,52 @@ interface ProfileSheetProps {
   };
 }
 
-export const ProfileSheet: React.FC<ProfileSheetProps> = ({ isOpen, onClose, onLogout, user }) => {
+export const ProfileSheet: React.FC<ProfileSheetProps> = ({
+  isOpen,
+  onClose,
+  onLogout,
+  onAdminEnabled,
+  onAdminDisabled,
+  adminEnabled,
+  user,
+}) => {
+  const [showPinModal, setShowPinModal] = useState(false);
+  const [pin, setPin] = useState('');
+  const [pinError, setPinError] = useState('');
+  const [pinLoading, setPinLoading] = useState(false);
+
+  const handleToggle = () => {
+    if (adminEnabled) {
+      // Turning OFF — immediate
+      onAdminDisabled();
+    } else {
+      // Turning ON — show PIN modal
+      setPin('');
+      setPinError('');
+      setShowPinModal(true);
+    }
+  };
+
+  const handlePinSubmit = () => {
+    if (pin === '1234') {
+      setPinLoading(true);
+      setTimeout(() => {
+        setShowPinModal(false);
+        setPinLoading(false);
+        setPin('');
+        setPinError('');
+        onAdminEnabled();
+      }, 500);
+    } else {
+      setPinError('Incorrect PIN. Try 1234.');
+      setPin('');
+    }
+  };
+
+  const handlePinKey = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter') handlePinSubmit();
+  };
+
   return (
     <AnimatePresence>
       {isOpen && (
@@ -78,7 +126,43 @@ export const ProfileSheet: React.FC<ProfileSheetProps> = ({ isOpen, onClose, onL
               </div>
             </div>
 
-            <div className="w-full h-[1px] bg-gray-100 mb-8" />
+            <div className="w-full h-[1px] bg-gray-100 mb-6" />
+
+            {/* Admin Mode Toggle Card */}
+            <div
+              className={`w-full flex items-center justify-between p-4 mb-4 rounded-2xl border transition-all ${
+                adminEnabled
+                  ? 'bg-[#1E3A8A] border-[#1E3A8A]'
+                  : 'bg-blue-50/50 border-blue-100/50 hover:bg-blue-50'
+              }`}
+            >
+              <div className="flex items-center gap-3">
+                <div className={`w-10 h-10 rounded-full flex items-center justify-center ${adminEnabled ? 'bg-white/20' : 'bg-blue-100'}`}>
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke={adminEnabled ? 'white' : '#1E3A8A'} strokeWidth="2">
+                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                  </svg>
+                </div>
+                <div className="text-left">
+                  <div className={`text-[15px] font-bold ${adminEnabled ? 'text-white' : 'text-blue-900'}`}>🛡 Admin Mode</div>
+                  <div className={`text-[12px] font-medium ${adminEnabled ? 'text-blue-200' : 'text-blue-600/70'}`}>
+                    {adminEnabled ? 'Insurer dashboard active' : 'Enable insurer dashboard access'}
+                  </div>
+                </div>
+              </div>
+              {/* Toggle switch */}
+              <button
+                onClick={handleToggle}
+                className={`relative w-12 h-6 rounded-full transition-all duration-300 flex-shrink-0 ${
+                  adminEnabled ? 'bg-green-400' : 'bg-gray-200'
+                }`}
+              >
+                <motion.div
+                  animate={{ x: adminEnabled ? 24 : 2 }}
+                  transition={{ type: 'spring', stiffness: 500, damping: 30 }}
+                  className="absolute top-[2px] w-5 h-5 bg-white rounded-full shadow-sm"
+                />
+              </button>
+            </div>
 
             {/* Logout Action */}
             <button
@@ -89,6 +173,80 @@ export const ProfileSheet: React.FC<ProfileSheetProps> = ({ isOpen, onClose, onL
               <span className="text-[15px] font-bold text-red-600">Logout of GigInsure</span>
             </button>
           </motion.div>
+
+          {/* ─── IN-APP PIN MODAL ─── */}
+          <AnimatePresence>
+            {showPinModal && (
+              <>
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  className="absolute inset-0 bg-black/70 z-[200] backdrop-blur-sm"
+                  onClick={() => { setShowPinModal(false); setPin(''); setPinError(''); }}
+                />
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.85, y: 40 }}
+                  animate={{ opacity: 1, scale: 1, y: 0 }}
+                  exit={{ opacity: 0, scale: 0.85, y: 40 }}
+                  transition={{ type: 'spring', damping: 22, stiffness: 300 }}
+                  className="absolute inset-x-6 top-1/2 -translate-y-1/2 bg-white rounded-[28px] z-[201] shadow-2xl p-7 flex flex-col items-center"
+                >
+                  {/* Icon */}
+                  <div className="w-16 h-16 rounded-full bg-[#EFF6FF] flex items-center justify-center mb-5 shadow-inner">
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#1E3A8A" strokeWidth="2">
+                      <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                    </svg>
+                  </div>
+                  <div className="text-[20px] font-extrabold text-gray-900 mb-1 tracking-tight">Enter Admin PIN</div>
+                  <div className="text-[13px] text-gray-500 mb-6 text-center">Access the insurer control center</div>
+
+                  {/* PIN Input */}
+                  <input
+                    type="password"
+                    inputMode="numeric"
+                    maxLength={6}
+                    value={pin}
+                    onChange={e => { setPin(e.target.value); setPinError(''); }}
+                    onKeyDown={handlePinKey}
+                    autoFocus
+                    placeholder="● ● ● ●"
+                    className="w-full text-center text-[22px] font-bold tracking-[0.5em] border-2 border-gray-200 focus:border-[#1E3A8A] rounded-2xl py-3 mb-3 outline-none transition-colors bg-gray-50 placeholder:text-gray-300"
+                  />
+
+                  {/* Inline error */}
+                  <AnimatePresence>
+                    {pinError && (
+                      <motion.div
+                        initial={{ opacity: 0, y: -8 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0 }}
+                        className="text-[13px] font-semibold text-red-500 mb-3 flex items-center gap-1"
+                      >
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4m0 4h.01"/></svg>
+                        {pinError}
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+
+                  {/* Confirm button */}
+                  <button
+                    onClick={handlePinSubmit}
+                    disabled={pin.length < 4 || pinLoading}
+                    className="w-full bg-[#1E3A8A] text-white text-[15px] font-bold py-3.5 rounded-2xl mb-3 transition-all shadow-lg shadow-blue-900/20 disabled:opacity-40 active:scale-[0.98]"
+                  >
+                    {pinLoading ? 'Verifying...' : 'Confirm PIN'}
+                  </button>
+                  <button
+                    onClick={() => { setShowPinModal(false); setPin(''); setPinError(''); }}
+                    className="text-[13px] text-gray-400 font-medium"
+                  >
+                    Cancel
+                  </button>
+                </motion.div>
+              </>
+            )}
+          </AnimatePresence>
         </>
       )}
     </AnimatePresence>

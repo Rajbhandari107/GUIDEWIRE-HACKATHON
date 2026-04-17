@@ -1,336 +1,241 @@
-# GigInsure  
-AI-powered income protection for food delivery workers  
+# GigInsure
+**AI-powered parametric income protection for gig delivery workers**
+
+> *Protecting the earnings of 12+ million gig workers against weather disruptions, AQI hazards, and zone restrictions — automatically, with zero paperwork.*
 
 ---
 
-## Problem  
+## Problem Statement
 
-Food delivery partners earn only when they are working.  
-If external conditions like heavy rain, floods, extreme heat, or pollution occur, they simply cannot work.
+Food delivery partners in India earn **only when they work**. When external conditions like heavy rain, floods, extreme heat, or dangerous AQI prevent them from working, they lose income with no recourse.
 
-When they don’t work, they don’t earn.
-
-Right now, there is no system that protects them from this kind of income loss.
+Today there is **no financial product** that protects gig workers from climate-driven income loss.
 
 ---
 
-## Scenario  
+## Delivery Worker Persona Scenarios
 
-Ravi is a Swiggy delivery partner in Chennai whose income depends entirely on daily work availability.  
-During disruptions like heavy rain, his earnings drop significantly.
+### Ravi – Swiggy Delivery Partner, Chennai
+- Earns ~₹600/day, works 8+ hrs
+- During heavy monsoon, roads flood → 0 orders, ₹0 earned
+- **Weekly income loss: ₹1,800–₹2,400**
 
-On a normal day:
-- Earns around ₹500  
-- Completes 15–20 deliveries  
+### Priya – Zomato Partner, Mumbai
+- Part-time, ₹300/day, 4 hrs
+- AQI spikes to 350+ due to industrial pollution → stays home
+- **Weekly income loss: ₹600–₹900**
 
-During heavy rain:
-- Roads become unsafe  
-- Restaurants close early  
-- Orders drop  
-
-### Daily Impact
-
-| Condition    | Daily Earnings | Deliveries |
-|-------------|--------------|-----------|
-| Normal Day  | ₹500         | 15–20     |
-| Heavy Rain  | ₹0–₹200      | Very low  |
-
-> His daily income drops drastically during disruptions.
-
-### Weekly Impact
-
-| Metric           | Value |
-|-----------------|------|
-| Expected Income | ₹3000 |
-| Actual Income   | ₹1000 |
-| **Loss**        | **₹2000** |
-
-> This loss is caused by **external disruptions**, not user behavior.
+### Arjun – Swiggy Partner, Bangalore
+- ₹1,000/day full-time, 10 hrs
+- Extreme heat advisory issued (46°C) → unsafe to operate
+- **Weekly income loss: ₹3,000+**
 
 ---
 
-## What We Are Building  
+## Application Workflow
 
-GigInsure is a simple system that gives gig workers a safety net for income loss.
-
-Instead of asking users to file claims manually, the system:
-- monitors real-world conditions  
-- detects disruptions  
-- automatically triggers payouts  
-
-The user does not need to take any action.
-
----
-
-## How It Works  
-
-1. User registers with location and platform  
-2. System calculates risk and suggests a weekly plan  
-3. User buys the plan  
-4. Coverage becomes active  
-
-After that:
-
-- System continuously monitors weather, AQI, and alerts  
-- If disruption happens → claim is triggered automatically  
-- Fraud checks are applied  
-- Payout is processed  
-- Dashboard is updated  
+```
+Register → Premium Calculated (ML + Weather + Persona)
+         → Weekly Plan Purchased (₹19 / ₹29 / ₹49)
+         → Policy Active (7-day rolling)
+         ↓
+Live Monitoring: Rain/AQI/Heat/Flood/Zone Closure
+         ↓
+Threshold Exceeded → Zero-Touch Claim Auto-Created
+         ↓
+Fraud Engine: ML Scoring → Approve / Delay / Block
+         ↓
+Approved → Razorpay Payout (Test Mode) → PAID
+         ↓
+Worker Dashboard Updated in Real Time
+```
 
 ---
 
-## System Architecture  
+## Weekly Premium Model
 
-<p align="center">
-  <img src="./images/architecture.jpeg" width="700"/>
-</p>
-The system uses real-time environmental data to trigger claims automatically, 
-while a multi-layer fraud detection engine assigns a risk score before payout.
+GigInsure uses a **weekly subscription model** because gig workers operate week-to-week and irregular monthly premiums create friction.
 
+| Plan     | Weekly Premium | Coverage Cap |
+|----------|--------------:|-------------:|
+| Basic    | ₹19           | ₹500         |
+| Standard | ₹29           | ₹800         |
+| Premium  | ₹49           | ₹1,200       |
 
-## Weekly Premium Model  
-
-We use a weekly model because gig workers operate week-to-week.
-
-Plans:
-
-- ₹15 → coverage up to ₹500  
-- ₹20 → coverage up to ₹800  
-- ₹25 → coverage up to ₹1200  
-
-Premium is adjusted slightly based on:
-- location  
-- historical disruption patterns  
-
-Higher-risk areas may have slightly higher premiums.
+Premiums are **dynamically adjusted** above base prices using:
+- **Live Weather Data** (OpenWeatherMap API): rain, temperature, humidity
+- **AQI** (estimated from city baseline + condition)
+- **ML Model** (Random Forest): trained on environmental features
+- **User Persona**: daily income × work hours × work type × city risk
+- **Time-of-Day Volatility**: Peak Rush hours attract higher exposure
 
 ---
 
-## Parametric Triggers  
+## Parametric Trigger Explanation
 
-Claims are triggered automatically using real-world data.
+GigInsure uses **parametric insurance** — claims are triggered automatically when real-world environmental parameters cross predefined thresholds. Workers **never file claims manually**.
 
-We monitor:
-
-- Rainfall  
-- Temperature  
-- Air Quality Index  
-- Flood alerts  
-
-Examples:
-
-- Heavy rain → rainfall above threshold  
-- Extreme heat → temperature above limit  
-- Pollution → AQI hazardous  
-- Flood → official alert  
+| Trigger Type      | Threshold                    |
+|-------------------|------------------------------|
+| Heavy Rain        | Rainfall > 30mm/hr           |
+| Flood Alert       | Official Flood level "Danger" |
+| Extreme Heat      | Temperature > 42°C           |
+| High AQI          | AQI > 300 (Hazardous)        |
+| Zone Closure      | Govt. curfew / restriction alert |
 
 Once triggered:
-- system detects disruption  
-- claim is generated  
-- payout is processed  
+1. Zero-touch claim is auto-created in DB
+2. Fraud engine assigns ML risk score
+3. Payout calculated based on income × severity × time multiplier
+4. Approved claims proceed to Razorpay payout
 
 ---
 
-## AI / ML Integration  
+## Why Mobile / Web?
 
-### Premium Calculation  
-
-We estimate risk using:
-- location  
-- historical weather data  
-- disruption frequency  
-
-This helps in setting fair weekly pricing.
+We chose a **Progressive Web App (PWA-ready React)** because:
+- Gig workers primarily use Android smartphones
+- No app store download barrier
+- Instant load, offline-safe caching possible
+- Backend-first architecture allows any frontend to integrate
+- Demo-ready across all devices without installation
 
 ---
 
-### Fraud Detection  
+## AI / ML Strategy
 
-We check:
-- mismatch between claim and actual data  
-- repeated claims  
-- unusual patterns  
+### 1. Dynamic Premium Calculation (Random Forest)
+- **Input features**: rainfall_mm, AQI, temperature, disruption_frequency, location_risk_score
+- **Output**: Weekly premium prediction
+- **Fallback**: Rule-based calculator if model unavailable
+- **Model file**: `backend/ml/premium_model.pkl` (4.3MB trained model)
 
-This is done using simple anomaly detection and rule-based checks.
+### 2. Fraud Detection (Logistic Regression)
+- **Input features**: claim_freq_per_week, GPS_deviation, env_mismatch, time_inconsistency, repeated_claims_pattern
+- **Output**: Fraud probability score (0–1)
+- **Risk levels**: Low (<0.4) → Approve | Medium (0.4–0.7) → Delay | High (>0.7) → Block
+- **Model file**: `backend/ml/fraud_model.pkl`
 
----
-
-## Platform Choice  
-
-We chose a web application because:
-- faster to build within hackathon time  
-- works on mobile and desktop  
-- no installation required  
-- easy to demonstrate  
-
----
-
-## Tech Stack  
-
-Frontend: React + Tailwind  
-Backend: FastAPI  
-Database: PostgreSQL  
-AI/ML: Scikit-learn  
-APIs: Weather + AQI  
-Payments: Razorpay (sandbox)  
-Deployment: Vercel / Render  
+### 3. Time-of-Day Volatility Engine
+- Payout multipliers based on earning-window analysis:
+  - **Prime Rush (4 PM–10 PM)**: 1.6× (peak earning window)
+  - **Morning Rush (6 AM–10 AM)**: 1.3×
+  - **Off Peak (10 AM–4 PM)**: 0.8×
+  - **Late Peak (10 PM–1 AM)**: 1.2×
+  - **Low Activity (1 AM–6 AM)**: 0.6×
 
 ---
 
-## Development Plan  
+## Tech Stack
 
-Phase 1:
-- problem understanding  
-- system design  
-- basic UI  
-
-Phase 2:
-- user registration  
-- policy system  
-- premium calculation  
-- claim automation  
-
-Phase 3:
-- fraud detection  
-- payout simulation  
-- dashboard  
+| Layer        | Technology                       |
+|--------------|----------------------------------|
+| Frontend     | React 18, TypeScript, Tailwind CSS, Framer Motion |
+| Backend      | FastAPI (Python 3.11)            |
+| Database     | SQLite (dev) → PostgreSQL (prod) |
+| ORM          | SQLAlchemy + Pydantic            |
+| ML Models    | scikit-learn (Random Forest, Logistic Regression) |
+| Weather API  | OpenWeatherMap Current Weather API |
+| Payments     | Razorpay Test Mode + Demo Fallback |
+| Charts       | Recharts                         |
 
 ---
 
-## 🚨 Adversarial Defense & Anti-Spoofing Strategy  
+## Development Plan
 
-### Problem  
+### Phase 1 — Ideation & Foundation
+- Problem research and persona definition
+- System architecture design
+- Core data models (User, Policy, Claim)
+- Basic React UI shell
+- FastAPI scaffold
 
-Fraud rings can spoof GPS locations to fake being in a disruption zone and trigger false payouts.
+### Phase 2 — Automation & Protection
+- User registration + demo persona fast-entry
+- Dynamic premium calculation via ML + weather
+- Weekly policy purchase flow
+- Zero-touch claim automation engine
+- Fraud detection ML model integration
+- Razorpay payment integration (test mode)
+- Real-time dashboard polling
 
-Simple GPS verification is not reliable.
-
----
-
-## 1. Differentiation: Real vs Fake  
-
-We do not rely only on GPS.  
-We check multiple signals together.
-
-Real users show:
-- natural movement  
-- realistic behavior  
-- environment consistency  
-
-Fake users show:
-- static or unnatural movement  
-- mismatched data  
-
----
-
-### Signals Used  
-
-- Location history (not just one point)  
-- Movement patterns  
-- Time-based activity  
-- Network conditions  
-- Environmental data  
+### Phase 3 — Scale & Optimise
+- Admin disruption simulator (5 event types)
+- Mass city-level simulation for all workers
+- Advanced fraud scenarios (GPS spoof, repeated pattern)
+- Admin Risk Desk with live charts (loss ratio, fraud vs genuine)
+- Time-of-Day Volatility Protection
+- Live OpenWeather API integration
+- Predictive risk insights display
 
 ---
 
-## 2. Data for Fraud Detection  
+## System Architecture
 
-### User-Level  
+The system uses real-time environmental data to trigger claims automatically,
+while a multi-layer fraud detection engine assigns a risk score before payout.
 
-- GPS history  
-- movement path  
-- claim frequency  
-
----
-
-### Environmental  
-
-- weather data  
-- AQI  
-- alerts  
-
----
-
-### Device / Network  
-
-- IP patterns  
-- device identifiers  
+```
+[OpenWeather API] ─→ [Weather Service] ─→ [Passive Trigger Detection]
+                                               │
+[Admin Simulator] ─→ [Route: /admin/simulate/] ─→ [Claim Engine]
+                                               │
+                                         [Fraud Model (ML)]
+                                               │
+                                    ┌──────────┴──────────┐
+                                  approved             flagged/delayed
+                                    │
+                              [Razorpay Order]
+                                    │
+                              [Payment Verify] → DB: status=paid
+```
 
 ---
 
-### Group Behavior (important)  
+## API Endpoints
 
-We detect coordinated attacks:
-
-- many users claiming from same location  
-- sudden spike in claims  
-- identical behavior patterns  
-
----
-
-## 3. Defense Strategy  
-
-We use layered validation:
-
-### Layer 1: Real-time checks  
-Compare GPS, movement, and environment  
-
-### Layer 2: Behavior analysis  
-Compare with past activity  
-
-### Layer 3: Cluster detection  
-Detect group fraud patterns  
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| POST | `/auth/register` | Register worker |
+| POST | `/auth/login` | Login by phone |
+| GET | `/policies/plans` | Available plans |
+| POST | `/policies/calculate-premium` | Dynamic ML premium |
+| POST | `/policies/purchase` | Buy/renew policy |
+| GET | `/policies/active/{user_id}` | Active policy |
+| GET | `/policies/claims/{user_id}` | Claim history |
+| POST | `/policies/simulate-disruption/{user_id}` | Single user disruption |
+| POST | `/policies/admin/simulate/{event}?city=X` | Mass city simulation |
+| GET | `/policies/admin/stats` | Loss ratio + fraud stats |
+| GET | `/policies/weather/{city}` | Live weather proxy |
+| POST | `/policies/simulate/fraud-case/{type}` | Fraud scenario demo |
+| POST | `/api/payments/create-order/{claim_id}` | Razorpay order |
+| POST | `/api/payments/verify` | Payment verification |
+| GET | `/api/payments/recent-payouts` | Payout history |
 
 ---
 
-Each claim is assigned a **risk score (0–1)**.
+## Running Locally
 
----
+```bash
+# Backend
+cd backend
+pip install -r requirements.txt
+uvicorn main:app --reload --port 8000
 
-### Action Based on Risk  
-
-- Low risk → instant payout  
-- Medium risk → delayed verification  
-- High risk → flagged  
-
----
-
-## 4. User Experience Balance  
-
-We avoid punishing genuine users.
-
-If a claim is flagged:
-- it is not rejected immediately  
-- moved to verification state  
-
-We may:
-- check activity consistency  
-- validate against environment  
-
----
-
-### Principle  
-
-We prefer delaying a payout rather than rejecting a genuine worker.
-
----
-
-## Final Idea  
-
-GigInsure focuses on one goal:
-
-Helping delivery workers stay financially stable when they cannot work due to external conditions.
-
-It removes the complexity of insurance and makes everything automatic.
+# Frontend
+cd frontend
+npm install
+npm run dev
+```
 
 ---
 
 ## Git Repository
-
 https://github.com/Rajbhandari107/GUIDEWIRE-HACKATHON
 
 ## Pitch Video Link
 https://drive.google.com/file/d/1WYRMrpyMjJC1vgqnEff79H6lVm4SgsRF/view?usp=sharing
+https://drive.google.com/file/d/1ytCGP2_7fMlPE7-MoTswfjG27soGLoym/view?usp=sharing
 
-##TEAM MINI PEKKA
-Buddham Rajbhandari, Aayush Pathak, Sneha Shariff, Achyut Poudel, Rahul Purbey
+## Team MINI PEKKA
+Buddham Rajbhandari · Aayush Pathak · Sneha Shariff · Achyut Poudel · Rahul Purbey

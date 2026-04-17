@@ -5,7 +5,11 @@ def get_user_by_phone(db: Session, phone: str):
     return db.query(models.User).filter(models.User.phone == phone).first()
 
 def create_user(db: Session, user: schemas.UserCreate):
-    db_user = models.User(**user.dict())
+    try:
+        data = user.model_dump()  # Pydantic v2
+    except AttributeError:
+        data = user.dict()        # Pydantic v1 fallback
+    db_user = models.User(**data)
     db.add(db_user)
     db.commit()
     db.refresh(db_user)
@@ -38,7 +42,9 @@ def create_claim(db: Session, claim: schemas.ClaimCreate):
     return db_claim
 
 def get_active_policy(db: Session, user_id: int):
+    from datetime import datetime
     return db.query(models.Policy).filter(
         models.Policy.user_id == user_id,
-        models.Policy.is_active == True
+        models.Policy.is_active == True,
+        models.Policy.end_date >= datetime.utcnow()
     ).first()

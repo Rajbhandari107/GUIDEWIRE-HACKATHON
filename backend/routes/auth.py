@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi import APIRouter, Depends, HTTPException, status, Body
 from sqlalchemy.orm import Session
 from database import get_db
 import crud, schemas
@@ -17,3 +17,9 @@ def register_user(user: schemas.UserCreate, db: Session = Depends(get_db)):
     if db_user:
         raise HTTPException(status_code=400, detail="Phone already registered")
     return crud.create_user(db=db, user=user)
+@router.post("/login", response_model=schemas.User)
+def login_user(phone: str = Body(..., embed=True), db: Session = Depends(get_db)):
+    db_user = crud.get_user_by_phone(db, phone=phone)
+    if not db_user:
+        raise HTTPException(status_code=404, detail="User not found")
+    return db_user

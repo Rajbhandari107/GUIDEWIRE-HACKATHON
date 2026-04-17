@@ -56,6 +56,11 @@ class Claim(ClaimBase):
     id: int
     status: str
     payout_id: Optional[str] = None
+    fraud_score: Optional[float] = None
+    risk_level: Optional[str] = None
+    payment_id: Optional[str] = None
+    payment_status: str = "pending"
+    paid_at: Optional[datetime] = None
     created_at: datetime
     policy_id: int
 

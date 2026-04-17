@@ -44,6 +44,11 @@ class Claim(Base):
     amount = Column(Float)
     status = Column(String, default="pending")  # pending, approved, paid
     payout_id = Column(String, nullable=True) # Simulated payout ID
+    fraud_score = Column(Float, nullable=True)
+    risk_level = Column(String, nullable=True)
+    payment_id = Column(String, nullable=True) # Razorpay payment ID
+    payment_status = Column(String, default="pending") # pending, paid, failed 
+    paid_at = Column(DateTime, nullable=True)
     created_at = Column(DateTime, default=datetime.utcnow)
     
     policy = relationship("Policy", back_populates="claims")

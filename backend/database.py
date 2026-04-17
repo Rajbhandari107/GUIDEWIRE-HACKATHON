@@ -7,7 +7,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 # Database URL - use PostgreSQL (docker later)
-DATABASE_URL = os.getenv("DATABASE_URL", "sqlite:///./giginsure_v2.db")  # Fallback to SQLite for dev
+DATABASE_URL = os.getenv("DATABASE_URL", "sqlite:///./giginsure.db")  # Fallback to SQLite for dev
 
 engine = create_engine(DATABASE_URL)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
